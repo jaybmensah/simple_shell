@@ -27,7 +27,7 @@ int main(int ac __attribute__((unused)), char __attribute__((unused)) *av[])
 			free(user_input);
 			user_input = NULL;
 			if (isatty(STDIN_FILENO))
-				printf("\n");
+				cust_write(STDOUT_FILENO, "\n");
 			exit(EXIT_SUCCESS);
 		}
 		user_input[ui_read - 1] = '\0';
@@ -51,4 +51,3 @@ int main(int ac __attribute__((unused)), char __attribute__((unused)) *av[])
 	}
 	return (EXIT_SUCCESS);
 }
-
