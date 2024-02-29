@@ -20,7 +20,7 @@ int main(int ac __attribute__((unused)), char __attribute__((unused)) *av[])
 		if (isatty(STDIN_FILENO))
 			cust_write(STDOUT_FILENO, "$ ");
 		fflush(stdout);
-		ui_read = my_getline(&user_input, &ui_size, stdin);
+		ui_read = getline(&user_input, &ui_size, stdin);
 		++cmd_ctr;
 		if (ui_read == -1)
 		{
