@@ -47,8 +47,7 @@ int reallocate_line(char **line, size_t *line_size);
 int handle_read_error(const char *message);
 
 /* getline-help */
-int needs_realloc(size_t current_size, size_t current_length,
-ssize_t bytes_read);
+int needs_realloc(size_t cur_syz, size_t cur_len, ssize_t bytes_read);
 int concatenate_chunk(char **line, size_t line_size, ssize_t bytes_read);
 int last_character_is_newline(const char *line, ssize_t bytes_read);
 int validate_arguments(char **line, size_t *line_size, FILE *fp);

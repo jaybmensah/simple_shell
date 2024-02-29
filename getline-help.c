@@ -2,16 +2,15 @@
 
 /**
  * needs_realloc - checks if reallocating is needed
- * @current_size: current size of the buffer
- * @current_length: current length of the string in the buffer
+ * @cur_syz: current size of the buffer
+ * @cur_len: current length of the string in the buffer
  * @bytes_read: number of bytes read in the last chunk
  *
  * Return: 1 if reallocation is needed, 0 otherwise
  */
-int needs_realloc(size_t current_size, size_t current_length,
-ssize_t bytes_read)
+int needs_realloc(size_t cur_syz, size_t cur_len, ssize_t bytes_read)
 {
-	return ((current_size - current_length) < (size_t)bytes_read);
+	return ((cur_syz - cur_len) < (size_t)bytes_read);
 }
 
 /**
