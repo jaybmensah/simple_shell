@@ -15,16 +15,18 @@ int needs_realloc(size_t cur_syz, size_t cur_len, ssize_t bytes_read)
 
 /**
  * concatenate_chunk - concatenates the read chunk to the line
+ * @fp: file pointer to read from
  * @line: line to concatenate to
  * @line_size: size of the line
  * @bytes_read: number of bytes read in the last chunk
  *
  * Return: 0 on success, -1 on failure
  */
-ssize_t concatenate_chunk(FILE *fp, char **line, size_t line_size, ssize_t bytes_read)
+ssize_t concatenate_chunk(FILE *fp, char **line,
+						size_t line_size, ssize_t bytes_read)
 {
 	ssize_t chunk_bytes;
-	char chunk[1024]; // Assuming a reasonable size for the chunk
+	char chunk[1024];
 
 	if ((*line) == NULL)
 	{
@@ -51,7 +53,7 @@ ssize_t concatenate_chunk(FILE *fp, char **line, size_t line_size, ssize_t bytes
 	}
 
 	strncat(*line, chunk, chunk_bytes);
-	return chunk_bytes;
+	return (chunk_bytes);
 }
 
 /**
