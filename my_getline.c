@@ -8,35 +8,41 @@
  *
  * Return: number of bytes read
 */
+
 ssize_t my_getline(char **line, size_t *line_size, FILE *fp)
 {
-	if (validate_arguments(line, line_size, fp) == -1)
-		return (-1);
+	ssize_t total_bytes_read = 0;
+	ssize_t bytes_read = 0;
 
-	allocate_initial_line(line, line_size);
-
-	while (1)
+	/* Validate arguments */
+	if (validate_arguments(line, line_size, fp) != 0)
 	{
-		ssize_t bytes_read = read_chunk(fp, *line, *line_size);
+		return (-1);  /* Invalid arguments */
+	}
 
-		if (bytes_read == -1)
-			return (-1);
-
-		if (bytes_read == 0)
-			return ((cust_strlen(*line) == 0) ? 0 : cust_strlen(*line));
-
+	do {
 		if (needs_realloc(*line_size, cust_strlen(*line), bytes_read))
 		{
-			if (reallocate_line(line, line_size) == -1)
-				return (-1);
+			if (resize_line(line, line_size) != 0)
+			{
+				return (-1);  /* Error resizing line buffer */
+			}
 		}
 
-		concatenate_chunk(*line, *line_size, bytes_read);
+		bytes_read = read_from_file(fp, *line + total_bytes_read,
+		*line_size - total_bytes_read);
+		if (bytes_read == -1)
+		{
+			return (-1);  /* Error reading from file */
+		}
 
-		if (last_character_is_newline(*line, bytes_read))
-			return (cust_strlen(*line));
-	}
+		total_bytes_read += bytes_read;
+
+	} while (!last_character_is_newline(*line, bytes_read));
+
+	return (total_bytes_read); /* Success */
 }
+
 
 /**
  * read_from_file - reads a chunk from a file
